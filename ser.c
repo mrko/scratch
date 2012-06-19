@@ -47,11 +47,11 @@ int main( int argc, char **argv ){
 		xa[1] = ticker;
 		xa[2] = ticker;
 	
-  		if(write(fd, xa, 5) == -1){
-    		fputs("write failed\n", stderr);
-    		close(fd);
-    		return -1;
-    	}
+		if(write(fd, xa, 5) == -1){
+			fputs("write failed\n", stderr);
+			close(fd);
+			return -1;
+		}
 		usleep(500000);
 	}
 	close(fd);
@@ -61,17 +61,17 @@ int main( int argc, char **argv ){
 
 int ser_setup(char *port){
 	if ((fd = open(port, O_RDWR | O_NDELAY | O_NOCTTY) ) == -1){
-    	fprintf(stderr, "Couldn't open %s\n", port);
-    	return(-1);
+		fprintf(stderr, "Couldn't open %s\n", port);
+		return(-1);
 	}
 	tcgetattr( fd, &termconf );
 	cfsetispeed( &termconf, B115200 );
 	cfsetospeed( &termconf, B115200 );
 	termconf.c_cflag |= (CLOCAL | CREAD );
 	termconf.c_cflag &= ~PARENB;  
-    termconf.c_cflag &= ~CSTOPB;
-    termconf.c_cflag &= ~CSIZE;
-    termconf.c_cflag |=  CS8;                           
+	termconf.c_cflag &= ~CSTOPB;
+	termconf.c_cflag &= ~CSIZE;
+	termconf.c_cflag |=  CS8;                           
 	termconf.c_cflag &= ~CRTSCTS;
 	termconf.c_lflag &= ~( ICANON | ECHO | ISIG | ECHOE | ECHOK | ECHONL | NOFLSH | IEXTEN | ECHOCTL | ECHOKE);
 	termconf.c_iflag &= ~( IXON | IXOFF | IGNBRK | BRKINT | INLCR | ICRNL | IMAXBEL );
